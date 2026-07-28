@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>프리팡 (FreePang) - 힐링 매치-3 퍼즐</title>
+  <meta name="description" content="시간제한이나 하트 소진 없이 순수하게 귀여운 동물 모양을 맞추는 1000개의 힐링 스테이지 퍼즐 게임 프리팡">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+
+  <div class="game-container">
+    <!-- Header Title -->
+    <header style="width: 100%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--panel-border); padding-bottom: 12px; margin-bottom: 4px;">
+      <h1 style="font-size: 26px; font-weight: 900; background: linear-gradient(135deg, #ffd700 0%, #ff8a80 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🐼 프리팡 (FreePang)</h1>
+      <button id="btn-stages" class="btn-retro" style="padding: 8px 16px; font-size: 13px;">🗺️ 스테이지 목록</button>
+    </header>
+
+    <!-- HUD / Status Panel -->
+    <div class="hud-panel">
+      <!-- Left HUD Info -->
+      <div class="hud-section">
+        <span class="hud-label">현재 구역</span>
+        <span id="stage-num" class="hud-value stage-title">STAGE 1</span>
+      </div>
+
+      <!-- Right HUD Info -->
+      <div class="hud-section" style="text-align: right; align-items: flex-end;">
+        <span class="hud-label">이동 횟수</span>
+        <span id="moves-val" class="hud-value" style="color: var(--accent-blue);">0</span>
+      </div>
+
+      <!-- Score Progress Bar -->
+      <div class="score-progress-container">
+        <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 2px;">
+          <span id="target-val" style="color: var(--text-secondary);">목표: 1,000</span>
+          <span>점수: <span id="score-val" style="color: var(--accent-green);">0</span></span>
+        </div>
+        <div class="progress-bar-bg">
+          <div id="progress-bar" class="progress-bar-fill"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div class="stars-container">
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+          </div>
+          <!-- Ice remaining condition -->
+          <div id="ice-status-div" style="font-size: 11px; font-weight: 600; color: #00e5ff; display: none;">
+            ❄️ 남은 얼음: <span id="ice-val">0</span>개
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Puzzle Game Board -->
+    <div id="board-outer" class="board-outer">
+      <!-- Grid elements and absolute tiles are rendered dynamically here -->
+      <div id="board" class="board"></div>
+    </div>
+
+    <!-- Bottom Controls buttons -->
+    <div class="controls">
+      <button id="btn-sound" class="btn-retro">🔊 사운드 ON</button>
+      <button id="btn-hint" class="btn-retro">💡 힌트</button>
+      <button id="btn-restart" class="btn-retro">🔄 재시작</button>
+    </div>
+  </div>
+
+  <!-- Stage Selector Modal -->
+  <div id="stage-modal" class="modal-overlay">
+    <div class="modal-content">
+      <h2 class="modal-header">🗺️ 스테이지 선택 (1 ~ 1000)</h2>
+      <p style="font-size: 13px; color: var(--text-secondary); text-align: center; margin-top: -8px;">클리어 완료 시 최고 획득 별 수가 표시됩니다.</p>
+      
+      <div id="stage-grid" class="stage-grid">
+        <!-- 1000 Stage buttons dynamically generated -->
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-top: 8px;">
+        <button class="btn-retro btn-primary" onclick="closeModal('stage-modal')">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Victory Stage Cleared Modal -->
+  <div id="victory-modal" class="modal-overlay">
+    <div class="modal-content" style="align-items: center; width: 380px;">
+      <div style="font-size: 50px;">🎉</div>
+      <h2 class="modal-header" id="vic-stage" style="color: var(--accent-gold);">STAGE 1 완료!</h2>
+      <p style="font-size: 14px; color: var(--text-secondary); text-align: center; margin-top: -6px;">축하합니다! 스테이지 목표를 무사히 달성하셨습니다.</p>
+      
+      <div id="vic-stars" class="stars-container" style="margin: 12px 0;">
+        <!-- Dynamic Stars -->
+      </div>
+
+      <div style="display: flex; gap: 12px; width: 100%; margin-top: 8px;">
+        <button class="btn-retro" onclick="closeModal('victory-modal')" style="flex: 1; justify-content: center;">닫기</button>
+        <button class="btn-retro btn-primary" onclick="nextStage()" style="flex: 1; justify-content: center;">다음 스테이지 ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

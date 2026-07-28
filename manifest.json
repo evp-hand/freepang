@@ -1,0 +1,18 @@
+{
+  "name": "프리팡 (FreePang) - 힐링 매치-3 퍼즐",
+  "short_name": "프리팡",
+  "description": "시간제한 없이 편안하게 즐기는 1000개의 스테이지 매치-3 동물 퍼즐 게임",
+  "start_url": "프리팡.html",
+  "display": "standalone",
+  "background_color": "#0d0d15",
+  "theme_color": "#00e5ff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "freepang_icon.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
