@@ -254,15 +254,6 @@ function initBoard(config) {
       cellDiv.style.left = `${getPosPx(c)}px`;
       cellDiv.style.top = `${getPosPx(r)}px`;
 
-      // Ice layer if designated
-      let hasIce = false;
-      if (iceCells.has(`${r},${c}`)) {
-        hasIce = true;
-        const iceDiv = document.createElement('div');
-        iceDiv.className = 'ice-overlay';
-        cellDiv.appendChild(iceDiv);
-      }
-
       boardEl.appendChild(cellDiv);
       cellState[r][c] = cellDiv;
 
@@ -281,6 +272,15 @@ function initBoard(config) {
       tileDiv.innerText = ANIMALS[animalIdx].char;
       tileDiv.style.left = `${getPosPx(c)}px`;
       tileDiv.style.top = `${getPosPx(r)}px`;
+
+      // Ice layer if designated
+      let hasIce = false;
+      if (iceCells.has(`${r},${c}`)) {
+        hasIce = true;
+        const iceDiv = document.createElement('div');
+        iceDiv.className = 'ice-overlay';
+        tileDiv.appendChild(iceDiv);
+      }
       
       // Event bindings
       tileDiv.dataset.row = r;
@@ -482,7 +482,7 @@ function processMatchList(matchedSet) {
     if (tile.hasIce) {
       tile.hasIce = false;
       playSound('ice');
-      const iceEl = tile.cellDiv.querySelector('.ice-overlay');
+      const iceEl = tile.tileDiv.querySelector('.ice-overlay');
       if (iceEl) {
         spawnIceParticles(getPosPx(c) + TILE_SIZE/2, getPosPx(r) + TILE_SIZE/2);
         iceEl.style.transform = 'scale(1.2)';
