@@ -691,7 +691,11 @@ function shuffleBoard(animated = true) {
   for (let r = 0; r < BOARD_ROWS; r++) {
     for (let c = 0; c < BOARD_COLS; c++) {
       const tile = boardState[r][c];
+      const iceEl = tile.tileDiv.querySelector('.ice-overlay');
       tile.tileDiv.innerText = ANIMALS[tile.animalIdx].char;
+      if (iceEl) {
+        tile.tileDiv.appendChild(iceEl);
+      }
       
       if (animated) {
         tile.tileDiv.style.transform = 'scale(0.2) rotate(360deg)';

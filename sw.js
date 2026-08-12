@@ -1,4 +1,4 @@
-const CACHE_NAME = 'freepang-v1.1';
+const CACHE_NAME = 'freepang-v1.2';
 const ASSETS = [
   './',
   '프리팡.html',
