@@ -654,35 +654,40 @@ function shuffleBoard(animated = true) {
   }
 
   const boardEl = document.getElementById('board');
-  const allTiles = [];
-
-  // Collect all animal indices
-  for (let r = 0; r < BOARD_ROWS; r++) {
-    for (let c = 0; c < BOARD_COLS; c++) {
-      allTiles.push(boardState[r][c].animalIdx);
-    }
-  }
 
   // Shuffle until we have possible moves and no initial matches
   let validShuffle = false;
   let attempts = 0;
   
-  while (!validShuffle && attempts < 100) {
+  while (!validShuffle && attempts < 200) {
     attempts++;
-    // Shuffle the indices list
-    allTiles.sort(() => Math.random() - 0.5);
-
-    // Map back temporarily to test matches
-    let idx = 0;
+    
+    // Procedurally generate animalIdx for all tiles to guarantee no initial matches
+    const tempIndices = [];
     for (let r = 0; r < BOARD_ROWS; r++) {
+      tempIndices[r] = [];
       for (let c = 0; c < BOARD_COLS; c++) {
-        boardState[r][c].animalIdx = allTiles[idx++];
+        let animalIdx;
+        do {
+          animalIdx = Math.floor(Math.random() * currentStageConfig.animalTypes);
+        } while (
+          (c >= 2 && tempIndices[r][c-1] === animalIdx && tempIndices[r][c-2] === animalIdx) ||
+          (r >= 2 && tempIndices[r-1][c] === animalIdx && tempIndices[r-2][c] === animalIdx)
+        );
+        tempIndices[r][c] = animalIdx;
       }
     }
 
-    // Check if shuffle created any starting match
-    const initialMatches = findMatches();
-    if (initialMatches.size === 0 && hasPossibleMoves()) {
+    // Apply temporarily to boardState to test
+    for (let r = 0; r < BOARD_ROWS; r++) {
+      for (let c = 0; c < BOARD_COLS; c++) {
+        boardState[r][c].animalIdx = tempIndices[r][c];
+      }
+    }
+
+    // Since starting matches are guaranteed to be 0 by construction,
+    // we only need to verify if there is at least one possible move.
+    if (hasPossibleMoves()) {
       validShuffle = true;
     }
   }
